@@ -1,25 +1,34 @@
-import { type } from "os";
-import { addTask, completedTask, removeTask } from "./tasks";
-import store from "./store";
-import { addEmployee } from "./employees";
+import {
+  getTasks,
+  addTask,
+  completedTask,
+  removeTask,
+  loadTasks,
+  addNewTask,
+  updateCompleted,
+  deleteTask,
+} from "./store/tasks";
+import store from "./store/store";
+import { addEmployee } from "./store/employees";
+import axios from "axios";
+import { fetchTasks } from "./store/tasks";
+import { apiCallBegan } from "./store/API.JS";
 
-//will run when something changes in the store
-// const unsubscribe =
-store.subscribe(() => {
-  console.log("Updated", store.getState());
-});
+// const gettingTasks = async () => {
+//   try {
+//     const response = await axios.get("http://localhost:5000/api/tasks");
+//     console.log(response);
 
-store.dispatch(addEmployee({ name: "Razan" }));
-store.dispatch(addTask({ task: "Task1" }));
-store.dispatch(addTask({ task: "Task2" }));
+//     store.dispatch(getTasks({ tasks: response.data }));
+//   } catch (err) {
+//     store.dispatch({ type: "SHOW_ERROR", payload: { error: err.message } });
+//   }
+// };
 
-// unsubscribe();
+// gettingTasks();
+// store.dispatch(fetchTasks());
 
-store.dispatch(removeTask({ id: 1 }));
-store.dispatch(completedTask({ id: 2 }));
-
-// store.dispatch(fetchTodo());
-
-console.log(store.getState());
-
-store.dispatch({ type: "SHOW ERROR", payload: "user not found" });
+store.dispatch(loadTasks());
+store.dispatch(addNewTask({ task: "Complete the new task " }));
+store.dispatch(updateCompleted({ id: 6, completed: true }));
+store.dispatch(deleteTask({ id: 6 }));
